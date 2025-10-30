@@ -92,8 +92,18 @@ public class CloneController : Singleton<CloneController>
         }
         else
         {
-            doors.ShowMessage(MinigameDoors.Message.Wrong);
-            GameManager.Instance.ChangeScene(GameManager.Scene.Lose);
+            StartCoroutine(LoseCoroutine());
         }
+    }
+
+    private IEnumerator LoseCoroutine()
+    {
+        doors.ShowMessage(MinigameDoors.Message.Wrong);
+
+        yield return doors.Close();
+
+        yield return new WaitForSeconds(waitTime + waitBetweenMinigames);
+
+        GameManager.Instance.ChangeScene(GameManager.Scene.Lose);
     }
 }

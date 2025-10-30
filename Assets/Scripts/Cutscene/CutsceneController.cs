@@ -58,7 +58,8 @@ public class CutsceneController : Singleton<CutsceneController>
 
             if (frame.clip != null)
             {
-                audioSource.PlayOneShot(frame.clip);
+                audioSource.clip = frame.clip;
+                audioSource.Play();
             }
 
             yield return new WaitForSeconds(frame.duration);
@@ -67,10 +68,11 @@ public class CutsceneController : Singleton<CutsceneController>
         EndCutscene();
     }
 
-    private void EndCutscene()
+    public void EndCutscene()
     {
         if (cutsceneRoutine != null)
         {
+            audioSource.Stop();
             StopCoroutine(cutsceneRoutine);
             cutsceneRoutine = null;
         }
