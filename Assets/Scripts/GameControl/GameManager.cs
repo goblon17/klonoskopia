@@ -72,6 +72,10 @@ public class GameManager : Singleton<GameManager>
             {
                 answers.Add((minigames.GetRandomElement(), null));
             }
+            if (currentLevel.Value == 2 && answers.Count > 2)
+            {
+                answers[2] = answers[0];
+            }
         }
         else
         {

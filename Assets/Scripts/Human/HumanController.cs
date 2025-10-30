@@ -132,6 +132,12 @@ public class HumanController : Singleton<HumanController>
                     return Verification.Good;
                 }
                 return Verification.Wrong;
+            case CablesMinigame cables:
+                if (answer.Length == 8)
+                {
+                    return Verification.Good;
+                }
+                return Verification.Wrong;
         }
 
         return Verification.Wrong;

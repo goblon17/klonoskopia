@@ -1091,9 +1091,16 @@ MonoBehaviour:
   levels:
   - minigameCount: 1
     repeatMinigames: 0
-  - minigameCount: 2
+  - minigameCount: 3
+    repeatMinigames: 1
+  - minigameCount: 5
     repeatMinigames: 0
+  - minigameCount: 10
+    repeatMinigames: 1
   minigames:
+  - {fileID: 3163980762403800165, guid: e3b7cbde62c770b4db7a35ce0864d670, type: 3}
+  - {fileID: 35484139768652420, guid: 79ff4576a7486624d85b7e2dfac5c6a5, type: 3}
+  - {fileID: 4876289657927986543, guid: 01389505925413846abba4b508ba72fd, type: 3}
   - {fileID: 5743813866095289012, guid: 03e6268f079a619459f161bdf121c5b4, type: 3}
 --- !u!1 &659335363
 GameObject:
