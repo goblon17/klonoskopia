@@ -120,6 +120,12 @@ public class HumanController : Singleton<HumanController>
                     return Verification.Good;
                 }
                 return Verification.Wrong;
+            case ShapeMinigame shape:
+                if (answer.Length >= 4)
+                {
+                    return Verification.Good;
+                }
+                return Verification.Wrong;
         }
 
         return Verification.Wrong;
