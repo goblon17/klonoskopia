@@ -7,6 +7,12 @@ public class HumanController : Singleton<HumanController>
 {
     [SerializeField]
     private RectTransform minigameParent;
+    [SerializeField]
+    private MinigameDoors doors;
+    [SerializeField]
+    private float waitBetweenMinigames;
+    [SerializeField]
+    private float waitTime;
 
     private IEnumerable<Minigame> minigames;
     private List<string> answers = new List<string>();
@@ -42,6 +48,10 @@ public class HumanController : Singleton<HumanController>
         GameManager.Instance.SetupLevel();
         minigames = GameManager.Instance.GetMinigames();
         answers.Clear();
+        doors.ShowMessage(MinigameDoors.Message.Dots);
+        doors.CloseInstantly();
+
+        yield return new WaitForSeconds(waitTime);
 
         foreach (Minigame minigame in minigames)
         {
@@ -52,14 +62,19 @@ public class HumanController : Singleton<HumanController>
 
             Minigame currentMinigame = Instantiate(minigame.gameObject, minigameParent).GetComponent<Minigame>();
             currentMinigame.MinigameEnded += OnMinigameEnd;
+            doors.Open();
 
             yield return new WaitUntil(() => nextMinigame);
             nextMinigame = false;
+
+            yield return doors.Close();
+            yield return new WaitForSeconds(waitBetweenMinigames);
         }
 
         GameManager.Instance.SetAnswers(answers);
-        GameManager.Instance.ChangeScene(GameManager.Scene.Clone);
+        yield return new WaitForSeconds(waitTime);
 
+        GameManager.Instance.ChangeScene(GameManager.Scene.Clone);
         minigameCoroutine = null;
     }
 
