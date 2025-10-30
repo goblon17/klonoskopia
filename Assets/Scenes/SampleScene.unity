@@ -1018,7 +1018,7 @@ MonoBehaviour:
   - minigameCount: 2
     repeatMinigames: 0
   minigames:
-  - {fileID: 35484139768652420, guid: 79ff4576a7486624d85b7e2dfac5c6a5, type: 3}
+  - {fileID: 5743813866095289012, guid: 03e6268f079a619459f161bdf121c5b4, type: 3}
 --- !u!1 &659335363
 GameObject:
   m_ObjectHideFlags: 0

@@ -126,6 +126,12 @@ public class HumanController : Singleton<HumanController>
                     return Verification.Good;
                 }
                 return Verification.Wrong;
+            case ColorsMinigame colors:
+                if (answer.Length == 4)
+                {
+                    return Verification.Good;
+                }
+                return Verification.Wrong;
         }
 
         return Verification.Wrong;
