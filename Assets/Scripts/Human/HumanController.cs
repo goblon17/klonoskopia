@@ -101,9 +101,15 @@ public class HumanController : Singleton<HumanController>
 
     private Verification VerifyAnswer(Minigame minigame, string answer)
     {
-        if (GameManager.Instance.HasAnswer(minigame, answer))
+        List<Minigame> g = GameManager.Instance.GetMinigames();
+        int c = g.Count;
+        int ca = answers.Count;
+        for (int i = 0; i < c && i < ca; i++)
         {
-            return Verification.Repeat;
+            if (g[i].GetType() == minigame.GetType() && answers[i] == answer)
+            {
+                return Verification.Repeat;
+            }
         }
 
         switch (minigame)
