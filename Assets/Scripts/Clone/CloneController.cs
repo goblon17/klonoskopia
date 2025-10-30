@@ -7,6 +7,12 @@ public class CloneController : Singleton<CloneController>
 {
     [SerializeField]
     private RectTransform minigameParent;
+    [SerializeField]
+    private MinigameDoors doors;
+    [SerializeField]
+    private float waitBetweenMinigames;
+    [SerializeField]
+    private float waitTime;
 
     private List<Minigame> minigames;
 
@@ -45,6 +51,12 @@ public class CloneController : Singleton<CloneController>
     {
         minigames = GameManager.Instance.GetMinigames();
         minigames.ShuffleSelf();
+
+        doors.ShowMessage(MinigameDoors.Message.Dots);
+        doors.CloseInstantly();
+
+        yield return new WaitForSeconds(waitTime);
+
         foreach (Minigame minigame in minigames)
         {
             foreach (Transform child in minigameParent)
@@ -54,10 +66,17 @@ public class CloneController : Singleton<CloneController>
 
             Minigame currentMinigame = Instantiate(minigame.gameObject, minigameParent).GetComponent<Minigame>();
             currentMinigame.MinigameEnded += OnMinigameEnd;
+            doors.Open();
 
             yield return new WaitUntil(() => nextMinigame);
             nextMinigame = false;
+
+            yield return doors.Close();
+
+            yield return new WaitForSeconds(waitBetweenMinigames);
         }
+
+        yield return new WaitForSeconds(waitTime);
 
         GameManager.Instance.NextLevel();
 
@@ -68,10 +87,12 @@ public class CloneController : Singleton<CloneController>
     {
         if (GameManager.Instance.RegisterAnswer(minigame, answer))
         {
+            doors.ShowMessage(MinigameDoors.Message.Correct);
             nextMinigame = true;
         }
         else
         {
+            doors.ShowMessage(MinigameDoors.Message.Wrong);
             GameManager.Instance.ChangeScene(GameManager.Scene.Lose);
         }
     }

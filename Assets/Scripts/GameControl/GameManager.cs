@@ -117,11 +117,14 @@ public class GameManager : Singleton<GameManager>
         int count = answers.Count;
         for (int i = 0; i < count; i++)
         {
-            if (answers[i].minigame.GetType() == minigame.GetType() &&
-                answers[i].answer != null && answers[i].answer == answer)
+            if (answers[i].minigame.GetType() == minigame.GetType() && answers[i].answer != null)
             {
-                answers[i] = (answers[i].minigame, null);
-                return true;
+                if (answers[i].answer == answer)
+                {
+                    answers[i] = (answers[i].minigame, null);
+                    return true;
+                }
+                return false;
             }
         }
         return false;
