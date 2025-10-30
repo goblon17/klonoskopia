@@ -112,6 +112,11 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public bool HasAnswer(Minigame minigame, string answer)
+    {
+        return answers.Any(e => e.minigame.GetType() == minigame.GetType() && e.answer == answer);
+    }
+
     public bool RegisterAnswer(Minigame minigame, string answer)
     {
         int count = answers.Count;

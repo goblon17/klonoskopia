@@ -8,6 +8,8 @@ public abstract class Minigame : MonoBehaviour
 
     public abstract void ShowError();
 
+    public abstract void ShowRepeat();
+
     protected void OnMinigameEnd(string val)
     {
         MinigameEnded?.Invoke(this, val);

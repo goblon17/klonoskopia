@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class HumanController : Singleton<HumanController>
 {
+    private enum Verification { Good, Wrong, Repeat }
+
     [SerializeField]
     private RectTransform minigameParent;
     [SerializeField]
@@ -80,25 +82,40 @@ public class HumanController : Singleton<HumanController>
 
     private void OnMinigameEnd(Minigame minigame, string answer)
     {
-        if (VerifyAnswer(minigame, answer))
+        switch (VerifyAnswer(minigame, answer))
         {
-            answers.Add(answer);
-            nextMinigame = true;
-        }
-        else
-        {
-            minigame.ResetMinigame();
-            minigame.ShowError();
+            case Verification.Good:
+                answers.Add(answer);
+                nextMinigame = true;
+                break;
+            case Verification.Wrong:
+                minigame.ShowError();
+                minigame.ResetMinigame();
+                break;
+            case Verification.Repeat:
+                minigame.ShowRepeat();
+                minigame.ResetMinigame();
+                break;
         }
     }
 
-    private bool VerifyAnswer(Minigame minigame, string answer)
+    private Verification VerifyAnswer(Minigame minigame, string answer)
     {
+        if (GameManager.Instance.HasAnswer(minigame, answer))
+        {
+            return Verification.Repeat;
+        }
+
         switch (minigame)
         {
             case PinMinigame pin:
-                return answer.Length == 4;
+                if (answer.Length == 4)
+                {
+                    return Verification.Good;
+                }
+                return Verification.Wrong;
         }
-        return false;
+
+        return Verification.Wrong;
     }
 }

@@ -13,10 +13,6 @@ public class MinigameDoors : MonoBehaviour
     private RectTransform topSlide;
     [SerializeField]
     private RectTransform bottomSlide;
-    [SerializeField]
-    private RectTransform topOpenPos;
-    [SerializeField]
-    private RectTransform bottomOpenPos;
 
     [SerializeField]
     private SerializedDictionary<Message, RectTransform> messages;
@@ -38,12 +34,15 @@ public class MinigameDoors : MonoBehaviour
     public YieldInstruction Open()
     {
         topSlide.DOKill();
-        bottomOpenPos.DOKill();
+        bottomSlide.DOKill();
 
-        float speed = topOpenPos.localPosition.y / animationDuration;
+        float speed = 0.5f / animationDuration;
 
-        bottomSlide.DOAnchorPos(bottomOpenPos.localPosition, speed).SetSpeedBased();
-        return topSlide.DOAnchorPos(topOpenPos.localPosition, speed).SetSpeedBased().WaitForCompletion();
+        bottomSlide.DOAnchorMin(new Vector2(0, -0.5f), speed).SetSpeedBased();
+        bottomSlide.DOAnchorMax(new Vector2(1, 0.5f), speed).SetSpeedBased();
+
+        topSlide.DOAnchorMin(new Vector2(0, 0.5f), speed).SetSpeedBased();
+        return topSlide.DOAnchorMax(new Vector2(1, 1.5f), speed).SetSpeedBased().WaitForCompletion();
     }
 
     public void OpenInstantly()
@@ -51,19 +50,25 @@ public class MinigameDoors : MonoBehaviour
         topSlide.DOKill();
         bottomSlide.DOKill();
 
-        topSlide.anchoredPosition = topOpenPos.localPosition;
-        bottomSlide.anchoredPosition = bottomOpenPos.localPosition;
+        topSlide.anchorMin = new Vector2(0, 0.5f);
+        topSlide.anchorMax = new Vector2(1, 1.5f);
+
+        bottomSlide.anchorMin = new Vector2(0, -0.5f);
+        bottomSlide.anchorMax = new Vector2(1, 0.5f);
     }
 
     public YieldInstruction Close()
     {
         topSlide.DOKill();
-        bottomOpenPos.DOKill();
+        bottomSlide.DOKill();
 
-        float speed = topOpenPos.localPosition.y / animationDuration;
+        float speed = 0.5f / animationDuration;
 
-        bottomSlide.DOAnchorPos(Vector2.zero, speed).SetSpeedBased();
-        return topSlide.DOAnchorPos(Vector2.zero, speed).SetSpeedBased().WaitForCompletion();
+        bottomSlide.DOAnchorMin(new Vector2(0, 0), speed).SetSpeedBased();
+        bottomSlide.DOAnchorMax(new Vector2(1, 1), speed).SetSpeedBased();
+        
+        topSlide.DOAnchorMin(new Vector2(0, 0), speed).SetSpeedBased();
+        return topSlide.DOAnchorMax(new Vector2(1, 1), speed).SetSpeedBased().WaitForCompletion();
     }
 
     public void CloseInstantly()
@@ -71,7 +76,10 @@ public class MinigameDoors : MonoBehaviour
         topSlide.DOKill();
         bottomSlide.DOKill();
 
-        topSlide.anchoredPosition = Vector2.zero;
-        bottomSlide.anchoredPosition = Vector2.zero;
+        topSlide.anchorMin = new Vector2(0, 0);
+        topSlide.anchorMax = new Vector2(1, 1);
+
+        bottomSlide.anchorMin = new Vector2(0, 0);
+        bottomSlide.anchorMax = new Vector2(1, 1);
     }
 }

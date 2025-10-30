@@ -53,4 +53,9 @@ public class PinMinigame : Minigame
     {
         
     }
+
+    public override void ShowRepeat()
+    {
+        
+    }
 }
