@@ -12,6 +12,8 @@ public class HumanController : Singleton<HumanController>
     [SerializeField]
     private MinigameDoors doors;
     [SerializeField]
+    private GameObject tutorial;
+    [SerializeField]
     private float waitBetweenMinigames;
     [SerializeField]
     private float waitTime;
@@ -33,6 +35,8 @@ public class HumanController : Singleton<HumanController>
         {
             return;
         }
+
+        tutorial.SetActive(GameManager.Instance.CurrentLevel == 0);
 
         minigameCoroutine = StartCoroutine(MinigameCoroutine());
     }

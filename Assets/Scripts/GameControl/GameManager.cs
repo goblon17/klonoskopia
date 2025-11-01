@@ -29,6 +29,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     public Scene CurrentScene => currentScene;
+    public int CurrentLevel => currentLevel.Value;
 
     private Scene currentScene = Scene.Menu;
 
